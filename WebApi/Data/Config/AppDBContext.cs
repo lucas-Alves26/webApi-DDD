@@ -3,9 +3,9 @@ using Model.Product;
 
 namespace Data.Config
 {
-    public class AppContext : DbContext
+    public class AppDBContext : DbContext
     {
-        public AppContext(DbContextOptions<AppContext> options) : base(options)
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
 
         }

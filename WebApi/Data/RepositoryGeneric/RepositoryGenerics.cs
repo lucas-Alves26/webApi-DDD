@@ -1,4 +1,6 @@
 ﻿using Business.Interfaces;
+using Data.Config;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32.SafeHandles;
 using System.Runtime.InteropServices;
 
@@ -6,6 +8,13 @@ namespace Data.RepositoryGeneric
 {
     public class RepositoryGenerics<T> : IGeneric<T>, IDisposable where T : class
     {
+
+        private readonly DbContextOptions<AppDBContext> _context;
+        public RepositoryGenerics()
+        {
+
+        }
+        
         public Task Create(T entity)
         {
             throw new NotImplementedException();
