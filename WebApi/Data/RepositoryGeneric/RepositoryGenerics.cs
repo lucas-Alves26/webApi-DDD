@@ -8,36 +8,53 @@ namespace Data.RepositoryGeneric
 {
     public class RepositoryGenerics<T> : IGeneric<T>, IDisposable where T : class
     {
-
         private readonly DbContextOptions<AppDBContext> _context;
         public RepositoryGenerics()
         {
-
-        }
-        
-        public Task Create(T entity)
-        {
-            throw new NotImplementedException();
+            _context = new DbContextOptions<AppDBContext>();
         }
 
-        public Task Delete(T entity)
+        public async Task Create(T entity)
         {
-            throw new NotImplementedException();
+            using (var context = new AppDBContext(_context))
+            {
+                await context.Set<T>().AddAsync(entity);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public Task<List<T>> Get()
+        public async Task Delete(T entity)
         {
-            throw new NotImplementedException();
+            using (var context = new AppDBContext(_context))
+            {
+                context.Set<T>().Remove(entity);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public Task<T> GetById(int id)
+        public async Task<List<T>> Get()
         {
-            throw new NotImplementedException();
+            using (var context = new AppDBContext(_context))
+            {
+                return await context.Set<T>().ToListAsync();
+            }
         }
 
-        public Task Update(T entity)
+        public async Task<T> GetById(int id)
         {
-            throw new NotImplementedException();
+            using (var context = new AppDBContext(_context))
+            {
+                return await context.Set<T>().FindAsync(id);
+            }
+        }
+
+        public async Task Update(T entity)
+        {
+            using (var context = new AppDBContext(_context))
+            {
+                context.Set<T>().Update(entity);
+                await context.SaveChangesAsync();
+            }
         }
 
         #region Disposed https://docs.microsoft.com/pt-br/dotnet/standard/garbage-collection/implementing-dispose
