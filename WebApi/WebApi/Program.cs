@@ -1,4 +1,11 @@
+using Business.Interfaces;
+using Data.ProductRepository;
+using Data.RepositoryGeneric;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
+builder.Services.AddSingleton<IProduct, ProductRepository>();
 
 // Add services to the container.
 
