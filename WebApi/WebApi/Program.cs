@@ -1,11 +1,19 @@
 using Business.Interfaces;
+using Data.Config;
 using Data.ProductRepository;
 using Data.RepositoryGeneric;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton<IProduct, ProductRepository>();
+
+
+builder.Services.AddDbContext<AppDBContext>
+    (x => x.UseSqlServer(
+        builder.Configuration.GetConnectionString("stringConnection")
+        ));
 
 // Add services to the container.
 

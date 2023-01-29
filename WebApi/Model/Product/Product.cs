@@ -20,7 +20,6 @@ namespace Model.Product
         [Required]
         [Column("quantity")]
         [Display(Name = "Quantidade")]
-        [MaxLength(255)]
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
     }
 }

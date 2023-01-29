@@ -11,7 +11,7 @@ namespace Data.ProductRepository
         private readonly DbContextOptions<AppDBContext> _context;
         public ProductRepository()
         {
-
+            _context= new DbContextOptions<AppDBContext>();
         }
     }
 }
