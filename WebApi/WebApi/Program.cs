@@ -9,10 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton<IProduct, ProductRepository>();
 
-
+//sting de conexão
+//Migration apontando para o projeto WebApi
 builder.Services.AddDbContext<AppDBContext>
     (x => x.UseSqlServer(
-        builder.Configuration.GetConnectionString("stringConnection")
+        builder.Configuration.GetConnectionString("stringConnection"), b => b.MigrationsAssembly("WebApi")
         ));
 
 // Add services to the container.

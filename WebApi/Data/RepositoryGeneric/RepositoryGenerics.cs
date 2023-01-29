@@ -40,7 +40,7 @@ namespace Data.RepositoryGeneric
             }
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T?> GetById(int id)
         {
             using (var context = new AppDBContext(_context))
             {
