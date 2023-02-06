@@ -14,12 +14,33 @@ namespace WebApi.Areas.Registration.Controllers
             _product = product;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetById(int id)
+        {
+           var produto = await _product.GetById(id);
+
+            if(produto != null)
+                return Ok(produto);
+
+            return NotFound();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Product product)
         {
-            await _product.Create(product);
+            try
+            {
+                await _product.Create(product);
 
-            return Created("", product);
+                return Created(nameof(GetById), new { Id = product.Id, product });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);     
+            }
+
         }
+
+
     }
 }
