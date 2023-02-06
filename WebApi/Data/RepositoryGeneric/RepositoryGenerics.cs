@@ -23,12 +23,10 @@ namespace Data.RepositoryGeneric
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(T entity)
         {
             using (var context = new AppDBContext(_context))
             {
-                var entity =  await context.Set<T>().FindAsync(id);
-
                 context.Set<T>().Remove(entity);
                 await context.SaveChangesAsync();
             }
