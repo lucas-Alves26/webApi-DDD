@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Model.Product;
 
 namespace Data.Config
@@ -13,7 +14,12 @@ namespace Data.Config
         {
             if(!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(GetStringConection());
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("stringConnection"));
                 base.OnConfiguring(optionsBuilder);
             }
         }
@@ -22,7 +28,7 @@ namespace Data.Config
 
         private string GetStringConection()
         {
-            return "";
+            return "Server=MARRETA\\SQLEXPRESS;Database=webApi;Trusted_Connection=True;TrustServerCertificate=True;";
         }
     }
 }
