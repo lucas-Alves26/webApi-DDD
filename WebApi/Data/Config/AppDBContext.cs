@@ -10,6 +10,10 @@ namespace Data.Config
         {
 
         }
+
+        public DbSet<Product> Products { get; set; }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if(!optionsBuilder.IsConfigured)
@@ -24,11 +28,5 @@ namespace Data.Config
             }
         }
 
-        public DbSet<Product> Products { get; set; }
-
-        private string GetStringConection()
-        {
-            return "Server=MARRETA\\SQLEXPRESS;Database=webApi;Trusted_Connection=True;TrustServerCertificate=True;";
-        }
     }
 }
