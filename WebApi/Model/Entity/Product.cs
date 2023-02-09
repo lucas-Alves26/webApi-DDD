@@ -1,8 +1,7 @@
-﻿using Model.Entity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Model.Product
+namespace Model.Entity
 {
     [Table("produto")]
     public class Product : BaseEntity
@@ -17,5 +16,8 @@ namespace Model.Product
         [Column("quantity")]
         [Display(Name = "Quantidade")]
         public int Quantity { get; set; }
+
+        public Category Category { get; set; }
+        public int CategoryId { get; set; }
     }
 }

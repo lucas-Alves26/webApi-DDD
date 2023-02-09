@@ -1,4 +1,4 @@
-﻿using Model.Product;
+﻿using Model.Entity;
 
 namespace Business.Interfaces
 {

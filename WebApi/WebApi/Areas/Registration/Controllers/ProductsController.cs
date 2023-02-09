@@ -1,6 +1,6 @@
 ﻿using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Model.Product;
+using Model.Entity;
 
 namespace WebApi.Areas.Registration.Controllers
 {

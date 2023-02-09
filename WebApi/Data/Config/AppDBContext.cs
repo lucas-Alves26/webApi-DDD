@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.Config.Configuration;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Model.Product;
+using Model.Entity;
 
 namespace Data.Config
 {
@@ -12,11 +13,12 @@ namespace Data.Config
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categorys { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if(!optionsBuilder.IsConfigured)
+            if (!optionsBuilder.IsConfigured)
             {
                 IConfigurationRoot configuration = new ConfigurationBuilder()
                     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -25,7 +27,13 @@ namespace Data.Config
 
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("stringConnection"));
                 base.OnConfiguring(optionsBuilder);
+
             }
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfiguration(new ProductConfiguration());
         }
 
     }

@@ -10,11 +10,9 @@ namespace Model.Entity
         [Display(Name = "Código")]
         public int Id { get; set; }
 
-        [Key]
         [Column("dateRegister")]
         public DateTime DateRegister { get; set; }
 
-        [Key]
         [Column("dateUpdate")]
         public DateTime? DateUpdate { get; set; }
     }

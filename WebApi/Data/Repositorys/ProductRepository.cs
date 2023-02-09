@@ -2,7 +2,7 @@
 using Data.Config;
 using Data.RepositoryGeneric;
 using Microsoft.EntityFrameworkCore;
-using Model.Product;
+using Model.Entity;
 
 namespace Data.ProductRepository
 {
