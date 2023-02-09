@@ -1,16 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Model.Entity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Product
 {
     [Table("produto")]
-    public class Product
+    public class Product : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        [Display(Name = "Código")]
-        public int Id { get; set; }
-
         [Required]
         [Column("nome")]
         [Display(Name = "Nome")]
