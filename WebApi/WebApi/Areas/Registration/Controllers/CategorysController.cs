@@ -27,7 +27,8 @@ namespace WebApi.Areas.Registration.Controllers
             {
                 Category category = _mapper.Map<Category>(categoryDto);
                 await _category.Create(category);
-                return Created(nameof(GetById), new { category.Id, category });
+
+                return Created(nameof(GetById), new { category.Id, categoryDto});
             }
             catch (Exception ex)
             {
