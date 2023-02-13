@@ -8,7 +8,9 @@ namespace WebApi.Profiles
     {
         public CategoryProfile()
         {
-            CreateMap<CreateCategoryDto, Category>().ReverseMap();
+            CreateMap<CreateCategoryDto, Category>();
+            CreateMap<UpdateCategoryDto, Category>();
+            CreateMap<Category, ReadCategoryDto>();
         }
     }
 }

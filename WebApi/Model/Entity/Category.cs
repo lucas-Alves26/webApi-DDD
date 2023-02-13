@@ -6,11 +6,6 @@ namespace Model.Entity
     [Table("categoria")]
     public class Category : BaseEntity
     {
-        public Category()
-        {
-            DateRegister= DateTime.Now;
-        }
-
         [Required]
         [Column("name")]
         [Display(Name = "Nome")]
