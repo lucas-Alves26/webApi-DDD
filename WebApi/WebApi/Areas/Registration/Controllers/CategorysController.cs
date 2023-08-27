@@ -2,6 +2,7 @@
 using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Model.Entity;
+using Sentry;
 using WebApi.Dto.Category;
 
 namespace WebApi.Areas.Registration.Controllers
@@ -11,10 +12,13 @@ namespace WebApi.Areas.Registration.Controllers
     public class CategorysController : ControllerBase
     {
         private readonly ICategory _category;
+        private readonly IHub _sentryHub;
         private IMapper _mapper;
-        public CategorysController(ICategory category, IMapper mapper)
+
+        public CategorysController(ICategory category, IMapper mapper, IHub sentryHub)
         {
             _category = category;
+            _sentryHub = sentryHub;
             _mapper = mapper;
         }
 
@@ -25,7 +29,7 @@ namespace WebApi.Areas.Registration.Controllers
         public async Task<IActionResult> Get()
         {
             try
-            {
+            {     
                 var category = await _category.Get();
 
                 if (category != null)
@@ -38,6 +42,7 @@ namespace WebApi.Areas.Registration.Controllers
             }
             catch (Exception ex)
             {
+                SentrySdk.CaptureException(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -77,9 +82,8 @@ namespace WebApi.Areas.Registration.Controllers
                 var category = _mapper.Map<Category>(categoryDto);
                 category.DateRegister= DateTime.Now;
                 await _category.Create(category);
-                var readCategory = _mapper.Map<ReadCategoryDto>(category);
 
-                return Created(nameof(GetById), new { category.Id, readCategory });
+                return Created(nameof(GetById), new { category.Id, category });
             }
             catch (Exception ex)
             {

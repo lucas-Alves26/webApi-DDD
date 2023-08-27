@@ -1,6 +1,8 @@
-﻿using Business.Interfaces;
+﻿using AutoMapper;
+using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Model.Entity;
+using WebApi.Dto.Product;
 
 namespace WebApi.Areas.Registration.Controllers
 {
@@ -9,9 +11,11 @@ namespace WebApi.Areas.Registration.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProduct _product;
-        public ProductsController(IProduct product)
+        private IMapper _mapper;
+        public ProductsController(IProduct product, IMapper mapper)
         {
             _product = product;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -36,7 +40,7 @@ namespace WebApi.Areas.Registration.Controllers
 
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetById")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
@@ -60,13 +64,14 @@ namespace WebApi.Areas.Registration.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
-        public async Task<IActionResult> Post([FromBody] Product product)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateProductDto))]
+        public async Task<IActionResult> Post([FromBody] CreateProductDto productDto)
         {
             try
             {
+                var product = _mapper.Map<Product>(productDto);
                 await _product.Create(product);
-                return Created(nameof(GetById), new {product.Id, product });
+                return new CreatedAtRouteResult(nameof(GetById), new { id = product.Id }, product);
             }
             catch (Exception ex)
             {
@@ -75,14 +80,21 @@ namespace WebApi.Areas.Registration.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put([FromBody] Product product)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateProductDto productDto)
         {
             try
             {
-                await _product.Update(product);
+                var product = await _product.GetById(id);
+
+                if (product != null)
+                {
+                    _mapper.Map(productDto, product);
+                    await _product.Update(product);
+                }
+
                 return NoContent();
             }
             catch (Exception ex)

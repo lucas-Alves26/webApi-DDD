@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Model.Entity
 {
@@ -17,6 +18,7 @@ namespace Model.Entity
         [Display(Name = "Quantidade")]
         public int Quantity { get; set; }
 
+        [JsonIgnore]
         public Category Category { get; set; }
         public int CategoryId { get; set; }
     }
